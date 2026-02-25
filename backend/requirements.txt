@@ -1,0 +1,12 @@
+# --- Data Processing & Machine Learning ---
+numpy
+pandas==2.2.0
+scikit-learn==1.4.0
+
+# --- Deep Learning (The Brain) ---
+tensorflow==2.15.0
+transformers==4.37.2
+
+# --- Web API (The Bridge) ---
+fastapi==0.109.2
+uvicorn==0.27.1
