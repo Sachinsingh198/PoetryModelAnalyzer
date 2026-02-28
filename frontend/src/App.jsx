@@ -4,7 +4,38 @@ import {Sparkles} from "lucide-react";
 import {motion, AnimatePresence} from 'framer-motion';
 
 function App() {
-    const emotion = "Romantic";
+    // const emotion = "Romantic";
+
+    // React States
+    const [poem, setPoem] = useState('');
+    const [emotion, setEmotion] = useState('Neutral');
+    const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+    // 2. Dynamic Background Gradients
+    const themeGradients = {
+        Neutral: 'from-slate-900 via-slate-800 to-slate-900',
+        Romantic: 'from-rose-900 via-pink-900 to-purple-900',
+        Melancholic: 'from-slate-900 via-blue-900 to-indigo-900',
+        Inspiring: 'from-orange-900 via-amber-900 to-yellow-900',
+        Devotional: 'from-amber-900 via-orange-900 to-red-900',
+    };
+
+    // 3. Fake API Call
+    const analyzePoetry = () => {
+        if (!poem.trim()) return;
+
+        setIsAnalyzing(true);
+        setEmotion("Neutral");
+
+        setTimeout(() => {
+            const emotionsList = ['Romantic', 'Melancholic', 'Inspiring', 'Devotional'];
+            const randomEmotion = emotionsList[Math.floor(Math.random() * emotionsList.length)];
+
+            setEmotion(randomEmotion);
+            setIsAnalyzing(false);
+        }, 2000);
+    };
+
     return (
         <>
             <div className="min-h-screen flex items-center justify-center bg-slate-900">
