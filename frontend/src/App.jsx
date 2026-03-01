@@ -1,7 +1,8 @@
 
 import './App.css'
-import {Sparkles} from "lucide-react";
+import {Loader2, Sparkles} from "lucide-react";
 import {motion, AnimatePresence} from 'framer-motion';
+import {useState} from "react";
 
 function App() {
     // const emotion = "Romantic";
@@ -38,43 +39,57 @@ function App() {
 
     return (
         <>
-            <div className="min-h-screen flex items-center justify-center bg-slate-900">
+            <div className={`min-h-screen flex items-center justify-center p-4 transition-all duration-1000 ease-in-out bg-gradient-to-br ${themeGradients[emotion]}`}>
                 <div className="w-full max-w-2xl bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl rounded-3xl p-8 sm:p-12">
-                    {/*Step 3: The Header Layer */}
+
                     <div className="flex flex-col items-center mb-10">
-                        {/*Icon in a glowing circle*/}
-                        <div className="p-3 bg-white/10 rounded-full mb-4 shadow-[0_-_15px_rgba(255, 255, 255, 0.1)]">
-                            <Sparkles className="w-8 h-8 text-rose-300"></Sparkles>
+                        {/* 1. Header Area */}
+                        <div className="p-3 bg-white/10 rounded-full mb-4 shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                            <Sparkles className="w-8 h-8 text-rose-300" />
                         </div>
-                        {/*Main Title */}
+
                         <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight font-serif mb-3">
                             Rooh-e-Kalam
                         </h1>
-                        {/*Premium Tagline */}
-                        <p className="text-slate-300 text-xs sm:text-sm font-light tracking-[0.3em] uppercase">
+
+                        <p className="text-slate-300 text-xs sm:text-sm font-light tracking-[0.3em] uppercase text-center">
                             Discover the soul of your poetry
                         </p>
-                        {/*The Input Layer*/}
-                        <div className="relative group w-full mb-8 mt-5">
+
+                        {/* 2. Text Area (FIXED: Classes wapas add ki hain) */}
+                        <div className="relative group w-full mb-8 mt-8">
                             <textarea
                                 className="w-full h-48 sm:h-56 p-6 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-lg sm:text-xl font-serif leading-relaxed resize-none focus:outline-none focus:bg-white/10 focus:ring-2 focus:ring-white/30 transition-all duration-300"
-                                placeholder="Kuch lafz yahan bikharaiye..."
+                                placeholder="Kuch lafz yahan bikhairiye..."
+                                value={poem}
+                                onChange={(e) => setPoem(e.target.value)}
                             />
                         </div>
 
-                        {/*button */}
+                        {/* 3. Button (FIXED: onClick aur Button Text) */}
                         <motion.button
                             whileHover={{scale: 1.02}}
                             whileTap={{scale: 0.98}}
-                            className="w-full py-4 px-6 bg-rose-400 text-slate-900 rounded-2xl font-bold text-lg tracking-wide shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] transition-all flex items-center justify-center gap-3 cursor-pointer "
+                            onClick={analyzePoetry} // <-- Yahan brackets hatae hain
+                            disabled={isAnalyzing || !poem.trim()}
+                            className="w-full py-4 px-6 bg-white text-slate-900 rounded-2xl font-bold text-lg tracking-wide shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            <Sparkles className="w-5 h-5"/>
-                            Analyze Emotion
+                            {isAnalyzing ? (
+                                <>
+                                    <Loader2 className="w-5 h-5 animate-spin"/>
+                                    Mehssoos kar raha hoon...
+                                </>
+                            ) : (
+                                <>
+                                    <Sparkles className="w-5 h-5" />
+                                    Analyze Emotion {/* <-- Text wapas add kiya */}
+                                </>
+                            )}
                         </motion.button>
 
-                        {/*Step 6 : The Result layer (Vibe Check) */}
+                        {/* 4. Result Area */}
                         <AnimatePresence>
-                            {emotion != "Neutral" && (
+                            {emotion !== "Neutral" && !isAnalyzing && (
                                 <motion.div
                                     initial={{ opacity: 0, y: 20, scale: 0.9 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
